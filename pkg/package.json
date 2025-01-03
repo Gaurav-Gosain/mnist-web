@@ -1,0 +1,16 @@
+{
+  "name": "mnist-web",
+  "type": "module",
+  "collaborators": [
+    "Gaurav Gosain"
+  ],
+  "version": "0.0.0",
+  "files": [
+    "mnist_web_bg.wasm",
+    "mnist_web.js"
+  ],
+  "main": "mnist_web.js",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

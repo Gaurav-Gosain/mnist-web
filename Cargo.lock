@@ -347,6 +347,8 @@ dependencies = [
  "burn",
  "console_error_panic_hook",
  "js-sys",
+ "libc",
+ "log",
  "serde",
  "wasm-bindgen",
  "wasm-bindgen-futures",

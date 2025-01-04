@@ -1,10 +1,13 @@
-#![allow(clippy::new_without_default)]
-
-// Originally copied from the burn/examples/mnist package
-
+// use crate::data::MnistBatch;
 use burn::{
-    nn::{BatchNorm, PaddingConfig2d},
+    nn::{
+        // loss::CrossEntropyLossConfig, 
+        BatchNorm, 
+        PaddingConfig2d,
+    },
     prelude::*,
+    // tensor::backend::AutodiffBackend,
+    // train::{ClassificationOutput, TrainOutput, TrainStep, ValidStep},
 };
 
 #[derive(Module, Debug)]
@@ -16,6 +19,13 @@ pub struct Model<B: Backend> {
     fc1: nn::Linear<B>,
     fc2: nn::Linear<B>,
     activation: nn::Gelu,
+}
+
+impl<B: Backend> Default for Model<B> {
+    fn default() -> Self {
+        let device = B::Device::default();
+        Self::new(&device)
+    }
 }
 
 const NUM_CLASSES: usize = 10;
@@ -39,9 +49,9 @@ impl<B: Backend> Model<B> {
             conv1,
             conv2,
             conv3,
+            dropout,
             fc1,
             fc2,
-            dropout,
             activation: nn::Gelu::new(),
         }
     }
@@ -63,6 +73,20 @@ impl<B: Backend> Model<B> {
 
         self.fc2.forward(x)
     }
+
+    // pub fn forward_classification(&self, item: MnistBatch<B>) -> ClassificationOutput<B> {
+    //     let targets = item.targets;
+    //     let output = self.forward(item.images);
+    //     let loss = CrossEntropyLossConfig::new()
+    //         .init(&output.device())
+    //         .forward(output.clone(), targets.clone());
+    //
+    //     ClassificationOutput {
+    //         loss,
+    //         output,
+    //         targets,
+    //     }
+    // }
 }
 
 #[derive(Module, Debug)]
@@ -93,3 +117,17 @@ impl<B: Backend> ConvBlock<B> {
         self.activation.forward(x)
     }
 }
+
+// impl<B: AutodiffBackend> TrainStep<MnistBatch<B>, ClassificationOutput<B>> for Model<B> {
+//     fn step(&self, item: MnistBatch<B>) -> TrainOutput<ClassificationOutput<B>> {
+//         let item = self.forward_classification(item);
+//
+//         TrainOutput::new(self, item.loss.backward(), item)
+//     }
+// }
+//
+// impl<B: Backend> ValidStep<MnistBatch<B>, ClassificationOutput<B>> for Model<B> {
+//     fn step(&self, item: MnistBatch<B>) -> ClassificationOutput<B> {
+//         self.forward_classification(item)
+//     }
+// }

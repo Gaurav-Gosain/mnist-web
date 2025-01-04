@@ -33,7 +33,7 @@ The total number of parameters is 376,952.
 The model is trained with 4 epochs and the final test accuracy is 98.67%.
 
 The training and hyper parameter information in can be found in
-[`burn` MNIST example](https://github.com/tracel-ai/burn/tree/main/examples/mnist).
+[training.rs](./src/training.rs).
 
 ## Resources
 

@@ -1,6 +1,3 @@
-#![allow(clippy::new_without_default)]
-
-use alloc::string::String;
 use js_sys::Array;
 
 #[cfg(target_family = "wasm")]
@@ -76,5 +73,11 @@ impl Mnist {
         }
 
         Ok(array)
+    }
+}
+
+impl Default for Mnist {
+fn default() -> Self {
+        Self::new()
     }
 }
